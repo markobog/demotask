@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TaskDemoApplication  implements ApplicationRunner{
 	
-	private static final Map<Integer, OrderItem> orderItems = new HashMap<>();
+	public static final Map<Integer, OrderItem> orderItems = new HashMap<>();
 	static {
 		orderItems.put(1, new OrderItem(1, "Small coffee", new BigDecimal("2.5")));
 		orderItems.put(2, new OrderItem(1, "Medium coffee", new BigDecimal("3.0")));
@@ -36,7 +36,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 	}
 	
     @Override
-    public void run( ApplicationArguments arguments ) throws Exception
+    public void run(ApplicationArguments arguments) throws Exception
     {
 		Order order = new Order();
 		StampCard stampCard = new StampCard();
@@ -48,6 +48,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 		try {
 			for (int i = 0; i < args.length - 1; i++) {
 				if (args[i].equalsIgnoreCase("--spring.output.ansi.enabled=always")) continue;
+				if(Integer.parseInt(args[i]) < 1 || Integer.parseInt(args[i]) > 8) throw new IllegalArgumentException();
 				OrderItem orderItem = orderItems.get(Integer.parseInt(args[i]));
 				order.setOrder(orderItem);
 				if (orderItem.getTypeOfItem() == 1)
@@ -59,6 +60,10 @@ public class TaskDemoApplication  implements ApplicationRunner{
 			}
 		} catch (NumberFormatException nfe) {
 			System.out.println("Order values must be integers: " + nfe.getMessage());
+			System.exit(1);
+		} catch (IllegalArgumentException iae) {
+			System.out.println("Order values must be between 1 and 8: " + iae);
+			System.exit(1);
 		}
 
 		try {
@@ -66,6 +71,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 				stampCard.setNumberOfBeverages(Integer.parseInt(args[args.length - 1]));
 		} catch (NumberFormatException nfe) {
 			System.out.println("Number of stamps must be integer: " + nfe.getMessage());
+			System.exit(1);
 		}
 		calculateBill(order, stampCard, beverages, snacks, extras);
 	}
