@@ -1,6 +1,10 @@
 package com.example.demo;
 
+import static org.assertj.core.api.Assertions.not;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -8,6 +12,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.model.OrderItem;
@@ -36,7 +41,14 @@ class TaskDemoApplicationTests {
 
     @Test
     void assertNumberOfItemsInMap_false() {
-        assertEquals(7, orderItems.size());
+    	assertNotEquals(7, orderItems.size());
+    }
+    
+    @Test
+    void testExpectedExceptionWithParentType() {
+    	assertThrows(AssertionFailedError.class, () -> {
+    		assertEquals(7, orderItems.size());
+    	});
     }
     
 }
