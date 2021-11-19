@@ -62,7 +62,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 			System.out.println("Order values must be integers: " + nfe.getMessage());
 			System.exit(1);
 		} catch (IllegalArgumentException iae) {
-			System.out.println("Order values must be between 1 and 8: " + iae);
+			System.out.println("Order values must be between 1 and 8: " + iae.getMessage());
 			System.exit(1);
 		}
 
