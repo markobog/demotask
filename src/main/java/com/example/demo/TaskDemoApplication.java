@@ -30,6 +30,8 @@ public class TaskDemoApplication  implements ApplicationRunner{
 		orderItems.put(8, new OrderItem(3, "Special roast coffee", new BigDecimal("0.9")));
 
 	}
+	
+	public String[] args;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskDemoApplication.class, args);
@@ -43,7 +45,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 		int beverages = 0;
 		int snacks = 0;
 		int extras = 0;
-		String[] args = arguments.getSourceArgs();
+		args = arguments.getSourceArgs();
 
 		try {
 			for (int i = 0; i < args.length - 1; i++) {
@@ -67,7 +69,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 		}
 
 		try {
-			if(args.length>0)
+			if(args.length > 0)
 				stampCard.setNumberOfBeverages(Integer.parseInt(args[args.length - 1]));
 		} catch (NumberFormatException nfe) {
 			System.out.println("Number of stamps must be integer: " + nfe.getMessage());
@@ -76,7 +78,7 @@ public class TaskDemoApplication  implements ApplicationRunner{
 		calculateBill(order, stampCard, beverages, snacks, extras);
 	}
 
-	private static void calculateBill(Order order, StampCard stampCard, int beverages, int snacks, int extras) {
+	public static void calculateBill(Order order, StampCard stampCard, int beverages, int snacks, int extras) {
 		List<String> billString = new ArrayList<String>();
 		BigDecimal totalPrice = BigDecimal.ZERO;
 		for (int i = 0; i < order.getOrder().size(); i++) {
